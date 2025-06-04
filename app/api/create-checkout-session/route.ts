@@ -3,7 +3,27 @@ import { stripe } from "@/lib/stripe"
 
 export async function POST(req: NextRequest) {
   try {
+    // Check if Stripe is initialized
+    if (!stripe) {
+      console.error("Stripe is not initialized")
+      return NextResponse.json(
+        {
+          error: "Payment service is not available in preview mode",
+        },
+        { status: 503 },
+      )
+    }
+
     const { priceId, email, name, plan } = await req.json()
+
+    if (!priceId || !email || !name || !plan) {
+      return NextResponse.json(
+        {
+          error: "Missing required fields",
+        },
+        { status: 400 },
+      )
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -24,8 +44,13 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json({ sessionId: session.id })
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating checkout session:", error)
-    return NextResponse.json({ error: "Error creating checkout session" }, { status: 500 })
+    return NextResponse.json(
+      {
+        error: error.message || "Error creating checkout session",
+      },
+      { status: 500 },
+    )
   }
 }
