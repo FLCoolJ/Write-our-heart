@@ -2,152 +2,140 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Calendar } from "@/components/ui/calendar"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { format } from "date-fns"
-import { ChevronLeft } from "lucide-react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
-
-// Define occasion types
-const occasionTypes = [
-  { id: "birthday", label: "Birthday", needsDate: true, needsYear: true },
-  { id: "christmas", label: "Christmas", needsDate: false },
-  { id: "valentines", label: "Valentine's Day", needsDate: false },
-  { id: "mothersDay", label: "Mother's Day", needsDate: false },
-  { id: "fathersDay", label: "Father's Day", needsDate: false },
-  { id: "graduation", label: "Graduation", needsDate: true },
-  { id: "easter", label: "Easter", needsDate: false },
-  { id: "stPatricks", label: "St. Patrick's Day", needsDate: false },
-  { id: "sympathy", label: "Sympathy", needsDate: true },
-  { id: "thankYou", label: "Thank You", needsDate: true },
-  { id: "wedding", label: "Wedding", needsDate: true },
-  { id: "thinkingOfYou", label: "Thinking of You", needsDate: true },
-  { id: "getWell", label: "Get Well", needsDate: true },
-  { id: "newBaby", label: "New Baby", needsDate: true },
-  { id: "congratulations", label: "Congratulations", needsDate: true },
-  { id: "other", label: "Other", needsDate: true, customText: true },
-]
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Heart, ArrowLeft } from "lucide-react"
 
 export default function AddHeart() {
   const router = useRouter()
-  const [name, setName] = useState("")
-  const [relationship, setRelationship] = useState("")
-  const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
-  const [address1, setAddress1] = useState("")
-  const [address2, setAddress2] = useState("")
-  const [city, setCity] = useState("")
-  const [state, setState] = useState("")
-  const [zipCode, setZipCode] = useState("")
-  const [selectedOccasions, setSelectedOccasions] = useState<{
-    [key: string]: { selected: boolean; date?: Date; customText?: string; birthYear?: number }
-  }>({})
-  const [showCalendar, setShowCalendar] = useState(false)
-  const [currentOccasion, setCurrentOccasion] = useState("")
-  const [customOccasion, setCustomOccasion] = useState("")
-  const [showReviewDialog, setShowReviewDialog] = useState(false)
-  const [calendarDialogs, setCalendarDialogs] = useState<{ [key: string]: boolean }>({})
+  const [formData, setFormData] = useState({
+    name: "",
+    relationship: "",
+    email: "",
+    phone: "",
+    addressLine: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    occasions: [] as string[],
+    occasionDates: {} as { [key: string]: string }, // Add this line
+    date: "",
+  })
 
-  const handleOccasionToggle = (occasionId: string) => {
-    setSelectedOccasions((prev) => {
-      const occasion = occasionTypes.find((o) => o.id === occasionId)
-      const isSelected = prev[occasionId]?.selected || false
+  // Add state for the "Other" occasion autocomplete:
+  const [otherOccasion, setOtherOccasion] = useState("")
+  const [showOtherSuggestions, setShowOtherSuggestions] = useState(false)
 
-      // If toggling on and needs date, prepare to show calendar
-      if (!isSelected && occasion?.needsDate) {
-        setCurrentOccasion(occasionId)
-        setShowCalendar(true)
-      }
+  // Add support for editing existing hearts
+  // Add this after the useState hooks:
+  const [isEditing, setIsEditing] = useState(false)
 
-      return {
-        ...prev,
-        [occasionId]: {
-          selected: !isSelected,
-          date: prev[occasionId]?.date,
-          customText: prev[occasionId]?.customText,
-          birthYear: prev[occasionId]?.birthYear,
-        },
-      }
-    })
-  }
+  // Add a new state variable after the existing useState hooks:
+  const [showConfirmation, setShowConfirmation] = useState(false)
 
+  // Add this to the useEffect hook:
+  useEffect(() => {
+    // Check if we're editing an existing heart
+    const editingHeart = localStorage.getItem("editingHeart")
+    if (editingHeart) {
+      const heartData = JSON.parse(editingHeart)
+      setFormData({
+        ...heartData,
+        occasionDates: heartData.occasionDates || {},
+      })
+      setOtherOccasion(heartData.otherOccasion || "")
+      setIsEditing(true)
+      // Clear the editing heart from localStorage
+      localStorage.removeItem("editingHeart")
+    }
+  }, [])
+
+  // Add a useEffect to monitor occasion selections after the existing useEffect:
+  useEffect(() => {
+    // Show confirmation when user has selected at least one occasion
+    setShowConfirmation(formData.occasions.length > 0)
+  }, [formData.occasions])
+
+  // Update the handleSubmit function to handle editing:
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // In a real app, this would save to a database
+    // Create the heart object
     const heartData = {
-      name,
-      relationship,
-      email,
-      phone,
-      address: {
-        line1: address1,
-        line2: address2,
-        city,
-        state,
-        zipCode,
-      },
-      occasions: selectedOccasions,
+      ...formData,
+      otherOccasion: formData.occasions.includes("other") ? otherOccasion : "",
+      id: isEditing ? formData.id : Date.now(),
     }
 
-    // Save to localStorage for demo purposes
+    // Store in localStorage
     const existingHearts = JSON.parse(localStorage.getItem("hearts") || "[]")
-    localStorage.setItem("hearts", JSON.stringify([...existingHearts, heartData]))
 
-    router.push("/personalize-message")
+    if (isEditing) {
+      // Update existing heart
+      const updatedHearts = existingHearts.map((heart: any) => (heart.id === heartData.id ? heartData : heart))
+      localStorage.setItem("hearts", JSON.stringify(updatedHearts))
+    } else {
+      // Add new heart
+      localStorage.setItem("currentHeart", JSON.stringify(heartData))
+      router.push("/personalize-message")
+      return
+    }
+
+    // If editing, go directly to my-hearts
+    router.push("/my-hearts")
   }
 
-  const handleReviewOccasions = () => {
-    setShowReviewDialog(true)
+  const handleInputChange = (field: string, value: any) => {
+    if (field === "occasions" && typeof value === "string") {
+      setFormData((prev) => ({ ...prev, [field]: [value] }))
+    } else if (field === "occasions" && Array.isArray(value)) {
+      setFormData((prev) => ({ ...prev, [field]: value }))
+    } else {
+      setFormData((prev) => ({ ...prev, [field]: value }))
+    }
   }
-
-  // Generate year options (from 1920 to current year)
-  const currentYear = new Date().getFullYear()
-  const yearOptions = Array.from({ length: currentYear - 1919 }, (_, i) => currentYear - i)
 
   return (
-    <div className="container max-w-2xl mx-auto py-8 px-4">
-      <div className="mb-6">
-        <Button variant="ghost" onClick={() => router.back()} className="mb-4">
-          <ChevronLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-        <h1 className="text-3xl font-bold text-black">Add a Heart</h1>
-        <p className="text-gray-600">Enter details about your special someone</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-yellow-400 to-yellow-500 p-4">
+      <div className="max-w-2xl mx-auto">
+        <div className="flex items-center mb-6">
+          <Button variant="ghost" onClick={() => router.back()} className="text-black hover:bg-black/10">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+        </div>
 
-      <form onSubmit={handleSubmit}>
         <Card>
-          <CardHeader className="bg-gradient-to-r from-yellow-400 to-yellow-500">
-            <CardTitle className="text-black">Recipient Information</CardTitle>
-            <CardDescription className="text-gray-700">
-              Fill in the details of the person you want to send cards to
-            </CardDescription>
+          <CardHeader className="text-center">
+            <Heart className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
+            {/* Update the card header to reflect editing state */}
+            {/* Find the CardTitle and replace it with: */}
+            <CardTitle className="text-2xl font-bold text-black">{isEditing ? "Edit Heart" : "Add a Heart"}</CardTitle>
           </CardHeader>
-          <CardContent className="pt-6">
-            <div className="space-y-4">
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name*</Label>
-                  <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+                  <Label htmlFor="name">Name *</Label>
+                  <Input
+                    id="name"
+                    placeholder="Enter their name"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    required
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="relationship">Relationship*</Label>
+                  <Label htmlFor="relationship">Relationship *</Label>
                   <Input
                     id="relationship"
-                    placeholder="e.g. Mother, Friend, Colleague"
-                    value={relationship}
-                    onChange={(e) => setRelationship(e.target.value)}
+                    placeholder="e.g., Mother, Friend, Partner"
+                    value={formData.relationship}
+                    onChange={(e) => handleInputChange("relationship", e.target.value)}
                     required
                   />
                 </div>
@@ -156,304 +144,309 @@ export default function AddHeart() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="their.email@example.com"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                  <Input
+                    id="phone"
+                    placeholder="(555) 123-4567"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="address1">Address Line 1*</Label>
-                <Input id="address1" value={address1} onChange={(e) => setAddress1(e.target.value)} required />
+                <Label htmlFor="addressLine">Address</Label>
+                <Input
+                  id="addressLine"
+                  placeholder="Street address"
+                  value={formData.addressLine}
+                  onChange={(e) => handleInputChange("addressLine", e.target.value)}
+                />
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="city">City</Label>
+                  <Input
+                    id="city"
+                    placeholder="City"
+                    value={formData.city}
+                    onChange={(e) => handleInputChange("city", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="state">State</Label>
+                  <Input
+                    id="state"
+                    placeholder="State"
+                    value={formData.state}
+                    onChange={(e) => handleInputChange("state", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="zipCode">ZIP Code</Label>
+                  <Input
+                    id="zipCode"
+                    placeholder="ZIP Code"
+                    value={formData.zipCode}
+                    onChange={(e) => handleInputChange("zipCode", e.target.value)}
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="address2">Address Line 2</Label>
-                <Input id="address2" value={address2} onChange={(e) => setAddress2(e.target.value)} />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="city">City*</Label>
-                  <Input id="city" value={city} onChange={(e) => setCity(e.target.value)} required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="state">State*</Label>
-                  <Input id="state" value={state} onChange={(e) => setState(e.target.value)} required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="zipCode">Zip Code*</Label>
-                  <Input id="zipCode" value={zipCode} onChange={(e) => setZipCode(e.target.value)} required />
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <Label className="text-base">Occasions</Label>
-                  <p className="text-sm text-gray-500 mb-2">Select all occasions you'd like to send cards for</p>
-
-                  <div className="space-y-3">
-                    {occasionTypes
-                      .filter((o) => o.id !== "other")
-                      .map((occasion) => (
-                        <div key={occasion.id} className="flex items-center justify-between p-3 border rounded-lg">
+                <Label htmlFor="occasions">Occasions *</Label>
+                <div className="border rounded-md p-4 space-y-3">
+                  {[
+                    { name: "Birthday", needsDate: true },
+                    { name: "Christmas", needsDate: false },
+                    { name: "Valentine's Day", needsDate: false },
+                    { name: "Mother's Day", needsDate: false },
+                    { name: "Father's Day", needsDate: false },
+                    { name: "Graduation", needsDate: true },
+                    { name: "Easter", needsDate: false },
+                    { name: "St. Patrick's Day", needsDate: false },
+                    { name: "Sympathy", needsDate: true },
+                    { name: "Thank You", needsDate: false },
+                    { name: "Weddings", needsDate: true },
+                    { name: "Thinking of You", needsDate: false },
+                    { name: "Get Well", needsDate: false },
+                    { name: "New Baby", needsDate: true },
+                    { name: "Congratulations", needsDate: false },
+                  ].map((option) => (
+                    <div key={option.name} className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id={option.name.toLowerCase().replace(/\s+/g, "-")}
+                          checked={formData.occasions.includes(option.name.toLowerCase().replace(/\s+/g, "-"))}
+                          onChange={(e) => {
+                            const value = option.name.toLowerCase().replace(/\s+/g, "-")
+                            if (e.target.checked) {
+                              handleInputChange("occasions", [...formData.occasions, value])
+                            } else {
+                              handleInputChange(
+                                "occasions",
+                                formData.occasions.filter((item) => item !== value),
+                              )
+                              // Remove the date for this occasion if unchecked
+                              const newDates = { ...formData.occasionDates }
+                              delete newDates[value]
+                              setFormData((prev) => ({ ...prev, occasionDates: newDates }))
+                            }
+                          }}
+                          className="h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                        />
+                        <Label htmlFor={option.name.toLowerCase().replace(/\s+/g, "-")}>{option.name}</Label>
+                      </div>
+                      {option.needsDate &&
+                        formData.occasions.includes(option.name.toLowerCase().replace(/\s+/g, "-")) && (
                           <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id={occasion.id}
-                              checked={selectedOccasions[occasion.id]?.selected || false}
-                              onCheckedChange={() => handleOccasionToggle(occasion.id)}
+                            <Input
+                              type="date"
+                              value={formData.occasionDates[option.name.toLowerCase().replace(/\s+/g, "-")] || ""}
+                              onChange={(e) => {
+                                const occasionKey = option.name.toLowerCase().replace(/\s+/g, "-")
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  occasionDates: {
+                                    ...prev.occasionDates,
+                                    [occasionKey]: e.target.value,
+                                  },
+                                }))
+                              }}
+                              className="w-40"
                             />
-                            <Label htmlFor={occasion.id} className="text-sm font-normal">
-                              {occasion.label}
-                            </Label>
                           </div>
-                          {occasion.needsDate && selectedOccasions[occasion.id]?.selected && (
-                            <div className="flex items-center space-x-2">
-                              {/* Birth Year Selector for Birthday */}
-                              {occasion.needsYear && (
-                                <Select
-                                  value={selectedOccasions[occasion.id]?.birthYear?.toString() || ""}
-                                  onValueChange={(value) => {
-                                    setSelectedOccasions((prev) => ({
-                                      ...prev,
-                                      [occasion.id]: {
-                                        ...prev[occasion.id],
-                                        birthYear: Number.parseInt(value),
-                                      },
-                                    }))
-                                  }}
-                                >
-                                  <SelectTrigger className="w-20">
-                                    <SelectValue placeholder="Year" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {yearOptions.map((year) => (
-                                      <SelectItem key={year} value={year.toString()}>
-                                        {year}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                              )}
-                              <Dialog
-                                open={calendarDialogs[occasion.id] || false}
-                                onOpenChange={(open) =>
-                                  setCalendarDialogs((prev) => ({ ...prev, [occasion.id]: open }))
-                                }
-                              >
-                                <DialogTrigger asChild>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className={cn(
-                                      "text-left font-normal",
-                                      !selectedOccasions[occasion.id]?.date && "text-muted-foreground",
-                                    )}
-                                    onClick={() => setCalendarDialogs((prev) => ({ ...prev, [occasion.id]: true }))}
-                                  >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {selectedOccasions[occasion.id]?.date
-                                      ? format(new Date(selectedOccasions[occasion.id].date as Date), "MMM d")
-                                      : "Select date"}
-                                  </Button>
-                                </DialogTrigger>
-                                <DialogContent className="p-0 bg-white w-auto">
-                                  <Calendar
-                                    mode="single"
-                                    selected={
-                                      selectedOccasions[occasion.id]?.date
-                                        ? new Date(selectedOccasions[occasion.id].date as Date)
-                                        : undefined
-                                    }
-                                    onSelect={(date) => {
-                                      if (date) {
-                                        setSelectedOccasions((prev) => ({
-                                          ...prev,
-                                          [occasion.id]: {
-                                            ...prev[occasion.id],
-                                            selected: true,
-                                            date,
-                                          },
-                                        }))
-                                        setCalendarDialogs((prev) => ({ ...prev, [occasion.id]: false }))
-                                      }
+                        )}
+                    </div>
+                  ))}
+
+                  {/* Other occasion with autocomplete and date */}
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="other"
+                        checked={formData.occasions.includes("other")}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            handleInputChange("occasions", [...formData.occasions, "other"])
+                          } else {
+                            handleInputChange(
+                              "occasions",
+                              formData.occasions.filter((item) => item !== "other"),
+                            )
+                            setOtherOccasion("")
+                            // Remove the date for other occasion if unchecked
+                            const newDates = { ...formData.occasionDates }
+                            delete newDates["other"]
+                            setFormData((prev) => ({ ...prev, occasionDates: newDates }))
+                          }
+                        }}
+                        className="h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500"
+                      />
+                      <Label htmlFor="other">Other</Label>
+                    </div>
+
+                    {formData.occasions.includes("other") && (
+                      <div className="ml-6 space-y-2">
+                        <div className="relative">
+                          <Input
+                            placeholder="Type occasion name..."
+                            value={otherOccasion}
+                            onChange={(e) => {
+                              setOtherOccasion(e.target.value)
+                              setShowOtherSuggestions(e.target.value.length > 1)
+                            }}
+                            onFocus={() => setShowOtherSuggestions(otherOccasion.length > 1)}
+                            onBlur={() => setTimeout(() => setShowOtherSuggestions(false), 200)}
+                            className="w-full"
+                          />
+
+                          {showOtherSuggestions && (
+                            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-40 overflow-y-auto">
+                              {[
+                                "Anniversary",
+                                "Retirement",
+                                "Housewarming",
+                                "Promotion",
+                                "Apology",
+                                "Encouragement",
+                                "Friendship",
+                                "Love",
+                                "Miss You",
+                                "Good Luck",
+                              ]
+                                .filter((suggestion) => suggestion.toLowerCase().includes(otherOccasion.toLowerCase()))
+                                .map((suggestion) => (
+                                  <div
+                                    key={suggestion}
+                                    className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                                    onClick={() => {
+                                      setOtherOccasion(suggestion)
+                                      setShowOtherSuggestions(false)
                                     }}
-                                    initialFocus
-                                    className="border-none"
-                                    captionLayout="dropdown-buttons"
-                                    fromYear={1920}
-                                    toYear={currentYear + 10}
-                                  />
-                                </DialogContent>
-                              </Dialog>
+                                  >
+                                    {suggestion}
+                                  </div>
+                                ))}
                             </div>
                           )}
                         </div>
-                      ))}
 
-                    {/* Other occasion with autocomplete */}
-                    <div className="flex items-center justify-between p-3 border rounded-lg">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="other"
-                          checked={selectedOccasions.other?.selected || false}
-                          onCheckedChange={() => handleOccasionToggle("other")}
-                        />
-                        <Label htmlFor="other" className="text-sm font-normal">
-                          Other
-                        </Label>
-                      </div>
-                      {selectedOccasions.other?.selected && (
                         <div className="flex items-center space-x-2">
+                          <Label className="text-sm">Date:</Label>
                           <Input
-                            value={customOccasion}
-                            onChange={(e) => setCustomOccasion(e.target.value)}
-                            placeholder="Type occasion..."
-                            className="w-32"
-                            list="occasion-suggestions"
+                            type="date"
+                            value={formData.occasionDates["other"] || ""}
+                            onChange={(e) => {
+                              setFormData((prev) => ({
+                                ...prev,
+                                occasionDates: {
+                                  ...prev.occasionDates,
+                                  other: e.target.value,
+                                },
+                              }))
+                            }}
+                            className="w-40"
                           />
-                          <datalist id="occasion-suggestions">
-                            <option value="Anniversary" />
-                            <option value="Retirement" />
-                            <option value="Housewarming" />
-                            <option value="Promotion" />
-                            <option value="Get Well Soon" />
-                            <option value="Just Because" />
-                          </datalist>
-                          <Dialog
-                            open={calendarDialogs.other || false}
-                            onOpenChange={(open) => setCalendarDialogs((prev) => ({ ...prev, other: open }))}
-                          >
-                            <DialogTrigger asChild>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className={cn(
-                                  "text-left font-normal",
-                                  !selectedOccasions.other?.date && "text-muted-foreground",
-                                )}
-                                onClick={() => setCalendarDialogs((prev) => ({ ...prev, other: true }))}
-                              >
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {selectedOccasions.other?.date
-                                  ? format(new Date(selectedOccasions.other.date as Date), "MMM d, yyyy")
-                                  : "Date"}
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent className="p-0 bg-white w-auto">
-                              <Calendar
-                                mode="single"
-                                selected={
-                                  selectedOccasions.other?.date
-                                    ? new Date(selectedOccasions.other.date as Date)
-                                    : undefined
-                                }
-                                onSelect={(date) => {
-                                  if (date) {
-                                    setSelectedOccasions((prev) => ({
-                                      ...prev,
-                                      other: {
-                                        ...prev.other,
-                                        date,
-                                        customText: customOccasion,
-                                      },
-                                    }))
-                                    setCalendarDialogs((prev) => ({ ...prev, other: false }))
-                                  }
-                                }}
-                                initialFocus
-                                className="border-none"
-                                captionLayout="dropdown-buttons"
-                                fromYear={1920}
-                                toYear={currentYear + 10}
-                              />
-                            </DialogContent>
-                          </Dialog>
                         </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Green confirmation box */}
-                  {Object.values(selectedOccasions).some((o) => o.selected) && (
-                    <div className="mt-4 p-4 bg-green-100 border border-green-200 rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h3 className="font-medium text-green-800">Selected Occasions</h3>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            {Object.entries(selectedOccasions)
-                              .filter(([_, value]) => value.selected)
-                              .map(([key, value]) => (
-                                <Badge key={key} className="bg-green-200 text-green-800">
-                                  {key === "other" && value.customText
-                                    ? value.customText
-                                    : occasionTypes.find((o) => o.id === key)?.label || key}
-                                  {value.date && ` (${format(value.date, "MMM d")})`}
-                                  {value.birthYear && ` - Born ${value.birthYear}`}
-                                </Badge>
-                              ))}
-                          </div>
-                        </div>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setShowReviewDialog(true)}
-                          className="text-green-700 border-green-300"
-                        >
-                          Review
-                        </Button>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button type="button" variant="outline" onClick={handleReviewOccasions} className="w-full">
-              Review Selected Occasions
-            </Button>
-            <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white">
-              Continue
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
 
-      <Dialog open={showReviewDialog} onOpenChange={setShowReviewDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Selected Occasions</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-2">
-            {Object.entries(selectedOccasions)
-              .filter(([_, value]) => value.selected)
-              .map(([key, value]) => {
-                const occasion = occasionTypes.find((o) => o.id === key)
-                return (
-                  <div key={key} className="flex justify-between items-center py-2 border-b">
-                    <div>{key === "other" && value.customText ? value.customText : occasion?.label}</div>
-                    <div className="text-sm text-gray-500">
-                      {value.date ? format(value.date, "MMMM d, yyyy") : "No date required"}
-                      {value.birthYear && ` (Born ${value.birthYear})`}
+              {/* Confirmation Section */}
+              {showConfirmation && (
+                <div className="space-y-4">
+                  <div className="bg-green-100 border border-green-300 rounded-lg p-4">
+                    <h3 className="text-black font-semibold mb-2">Selected Occasions:</h3>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {formData.occasions.map((occasion) => {
+                        const displayName =
+                          occasion === "other" && otherOccasion
+                            ? otherOccasion
+                            : occasion.charAt(0).toUpperCase() + occasion.slice(1).replace("-", " ")
+
+                        const hasDate = formData.occasionDates[occasion]
+                        const needsDate = [
+                          "birthday",
+                          "graduation",
+                          "sympathy",
+                          "new-baby",
+                          "weddings",
+                          "other",
+                        ].includes(occasion)
+
+                        return (
+                          <div
+                            key={occasion}
+                            className={`px-3 py-1 rounded-full text-sm ${
+                              needsDate && !hasDate ? "bg-yellow-200 text-yellow-800" : "bg-green-200 text-green-800"
+                            }`}
+                          >
+                            {displayName}
+                            {hasDate && (
+                              <span className="ml-1 text-xs">
+                                ({new Date(hasDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })})
+                              </span>
+                            )}
+                            {needsDate && !hasDate && <span className="ml-1 text-xs">⚠️ Needs date</span>}
+                          </div>
+                        )
+                      })}
                     </div>
+
+                    {/* Check if any occasions need dates */}
+                    {formData.occasions.some(
+                      (occ) =>
+                        ["birthday", "graduation", "sympathy", "new-baby", "weddings", "other"].includes(occ) &&
+                        !formData.occasionDates[occ],
+                    ) ? (
+                      <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
+                        <p className="text-black text-sm mb-2">
+                          ⚠️ Some occasions still need dates. Please add dates or continue without them.
+                        </p>
+                        <div className="flex space-x-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowConfirmation(false)}
+                            className="bg-yellow-100 hover:bg-yellow-200 text-black"
+                          >
+                            Revise Selections
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="bg-green-50 border border-green-200 rounded p-3">
+                        <p className="text-black font-medium">✅ Done! All selected occasions are ready.</p>
+                      </div>
+                    )}
                   </div>
-                )
-              })}
-          </div>
-          {Object.entries(selectedOccasions).filter(([_, value]) => value.selected).length === 0 && (
-            <p className="text-center text-gray-500 py-4">No occasions selected yet</p>
-          )}
-          <div className="flex justify-end">
-            <Button onClick={() => setShowReviewDialog(false)} className="bg-green-600 hover:bg-green-700 text-white">
-              Done
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+                </div>
+              )}
+
+              {/* Update the submit button to reflect editing state */}
+              {/* Find the submit button and replace it with: */}
+              <Button type="submit" className="w-full bg-yellow-500 hover:bg-yellow-600 text-black text-lg py-3">
+                {isEditing ? "Save Changes" : "Continue"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

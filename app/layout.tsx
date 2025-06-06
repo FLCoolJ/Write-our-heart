@@ -2,27 +2,31 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { SiteHeader } from "@/components/shared/site-header"
+import Footer from "@/components/footer"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Write Our Heart - Personalized Greeting Cards",
-  description: "Create, personalize, and schedule greeting cards for your loved ones",
+  title: "Write Our Heart",
+  description: "Simplify your card-sending experience with personalized, meaningful messages.",
     generator: 'v0.dev'
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
+  // Determine if this is the beta subdomain
+  const isBeta = process.env.NEXT_PUBLIC_IS_BETA === "true"
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+        <SiteHeader subdomain={isBeta ? "beta" : "main"} showBetaBanner={!isBeta} />
+        {children}
+        <Footer />
       </body>
     </html>
   )
