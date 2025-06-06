@@ -3,19 +3,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle, Mail, Calendar, Heart, ArrowRight } from "lucide-react"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 import TestimonialCard from "@/components/testimonial-card"
 import PricingCard from "@/components/pricing-card"
 import HowItWorksStep from "@/components/how-it-works-step"
-import BetaBanner from "@/components/beta-banner"
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <BetaBanner />
-      <Navbar />
-
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-20">
@@ -24,7 +18,6 @@ export default function Home() {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <Badge className="bg-yellow-500 text-black px-3 py-1 text-sm">Beta Access Available</Badge>
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                 Personalized Poetry Cards, Written From Your Heart
               </h1>
@@ -427,8 +420,6 @@ export default function Home() {
           </p>
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }

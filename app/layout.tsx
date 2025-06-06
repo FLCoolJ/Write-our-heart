@@ -18,13 +18,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Determine if this is the beta subdomain
-  const isBeta = process.env.NEXT_PUBLIC_IS_BETA === "true"
-
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SiteHeader subdomain={isBeta ? "beta" : "main"} showBetaBanner={true} />
+        <SiteHeader subdomain="main" showBetaBanner={true} />
         {children}
         <Footer />
       </body>

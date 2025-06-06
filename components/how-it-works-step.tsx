@@ -1,45 +1,35 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Users, Edit, CheckCircle, Calendar, Heart, Mail } from "lucide-react"
+import { Users, Edit, CheckCircle } from "lucide-react"
 
 interface HowItWorksStepProps {
   number: string
   title: string
   description: string
-  icon: string
+  icon: "Users" | "Edit" | "CheckCircle"
+}
+
+const iconMap = {
+  Users,
+  Edit,
+  CheckCircle,
 }
 
 export default function HowItWorksStep({ number, title, description, icon }: HowItWorksStepProps) {
-  const getIcon = () => {
-    switch (icon) {
-      case "Users":
-        return <Users className="h-8 w-8 text-yellow-500" />
-      case "Edit":
-        return <Edit className="h-8 w-8 text-yellow-500" />
-      case "CheckCircle":
-        return <CheckCircle className="h-8 w-8 text-yellow-500" />
-      case "Calendar":
-        return <Calendar className="h-8 w-8 text-yellow-500" />
-      case "Heart":
-        return <Heart className="h-8 w-8 text-yellow-500" />
-      case "Mail":
-        return <Mail className="h-8 w-8 text-yellow-500" />
-      default:
-        return <CheckCircle className="h-8 w-8 text-yellow-500" />
-    }
-  }
+  const IconComponent = iconMap[icon]
 
   return (
-    <Card className="bg-black border border-gray-800 hover:border-yellow-500/50 transition-colors h-full">
-      <CardContent className="p-8">
-        <div className="rounded-full bg-yellow-500/10 w-16 h-16 flex items-center justify-center mb-6">
-          <span className="text-2xl font-bold text-yellow-500">{number}</span>
+    <div className="text-center space-y-4">
+      <div className="relative">
+        <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-2xl font-bold text-black">{number}</span>
         </div>
-
-        <div className="mb-4">{getIcon()}</div>
-
-        <h3 className="text-xl font-bold mb-3">{title}</h3>
-        <p className="text-gray-400">{description}</p>
-      </CardContent>
-    </Card>
+        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+          <div className="w-8 h-8 bg-yellow-500/20 rounded-full flex items-center justify-center">
+            <IconComponent className="h-4 w-4 text-yellow-500" />
+          </div>
+        </div>
+      </div>
+      <h3 className="text-xl font-bold">{title}</h3>
+      <p className="text-gray-400">{description}</p>
+    </div>
   )
 }

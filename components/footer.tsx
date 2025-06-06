@@ -1,36 +1,22 @@
 import Link from "next/link"
-import { Heart, Mail, Phone, MapPin, Instagram, Twitter, Facebook, Linkedin } from "lucide-react"
+import { Heart } from "lucide-react"
 
-function Footer() {
+export default function Footer() {
   return (
-    <footer className="bg-gray-900 border-t border-gray-800">
+    <footer className="bg-black border-t border-gray-800 text-white">
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <Link href="/" className="flex items-center">
-              <img src="/images/logo-symbol.png" alt="Write Our Heart Logo" className="h-10 w-10 mr-2" />
-              <span className="text-xl font-bold text-white">Write Our Heart</span>
-            </Link>
-            <p className="text-gray-400">Personalized poetry cards for every occasion, written from your heart.</p>
-            <div className="flex space-x-4">
-              <a href="https://instagram.com" className="text-gray-400 hover:text-yellow-500">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="https://twitter.com" className="text-gray-400 hover:text-yellow-500">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="https://facebook.com" className="text-gray-400 hover:text-yellow-500">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="https://linkedin.com" className="text-gray-400 hover:text-yellow-500">
-                <Linkedin className="h-5 w-5" />
-              </a>
+            <div className="flex items-center">
+              <Heart className="h-6 w-6 text-yellow-500 mr-2" />
+              <span className="text-lg font-bold">Write Our Heart</span>
             </div>
+            <p className="text-gray-400 text-sm">Personalized poetry cards that express what's truly in your heart.</p>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold mb-4">Product</h3>
+            <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/how-it-works" className="text-gray-400 hover:text-yellow-500">
                   How It Works
@@ -43,12 +29,7 @@ function Footer() {
               </li>
               <li>
                 <Link href="/samples" className="text-gray-400 hover:text-yellow-500">
-                  Sample Gallery
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-gray-400 hover:text-yellow-500">
-                  About Us
+                  Samples
                 </Link>
               </li>
               <li>
@@ -60,74 +41,49 @@ function Footer() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Legal</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold mb-4">Company</h3>
+            <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/terms" className="text-gray-400 hover:text-yellow-500">
-                  Terms of Service
+                <Link href="/about" className="text-gray-400 hover:text-yellow-500">
+                  About
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-gray-400 hover:text-yellow-500">
-                  Privacy Policy
+                <Link href="/blog" className="text-gray-400 hover:text-yellow-500">
+                  Blog
                 </Link>
               </li>
               <li>
-                <Link href="/subscription-terms" className="text-gray-400 hover:text-yellow-500">
-                  Subscription Terms
-                </Link>
-              </li>
-              <li>
-                <Link href="/refund-policy" className="text-gray-400 hover:text-yellow-500">
-                  Refund Policy
+                <Link href="/contact" className="text-gray-400 hover:text-yellow-500">
+                  Contact
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Contact</h3>
-            <ul className="space-y-2">
-              <li className="flex items-center text-gray-400">
-                <Mail className="h-5 w-5 mr-2 text-yellow-500" />
-                <a href="mailto:hello@writeourheart.com" className="hover:text-yellow-500">
-                  hello@writeourheart.com
-                </a>
+            <h3 className="font-semibold mb-4">Legal</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/privacy" className="text-gray-400 hover:text-yellow-500">
+                  Privacy Policy
+                </Link>
               </li>
-              <li className="flex items-center text-gray-400">
-                <Phone className="h-5 w-5 mr-2 text-yellow-500" />
-                <a href="tel:+1234567890" className="hover:text-yellow-500">
-                  (123) 456-7890
-                </a>
-              </li>
-              <li className="flex items-start text-gray-400">
-                <MapPin className="h-5 w-5 mr-2 text-yellow-500 mt-1" />
-                <span>
-                  Write Our Heart, Inc.
-                  <br />
-                  123 Greeting Card Lane
-                  <br />
-                  San Francisco, CA 94103
-                </span>
+              <li>
+                <Link href="/terms" className="text-gray-400 hover:text-yellow-500">
+                  Terms of Service
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">
-            &copy; {new Date().getFullYear()} Write Our Heart. All rights reserved.
-          </p>
-          <div className="flex items-center mt-4 md:mt-0">
-            <Heart className="h-4 w-4 text-yellow-500 mr-2" />
-            <span className="text-gray-400 text-sm">Made with love in the USA</span>
-          </div>
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+          <p>&copy; 2024 Write Our Heart. All rights reserved.</p>
         </div>
       </div>
     </footer>
   )
 }
 
-// Export both as named and default export to support both import styles
 export { Footer }
-export default Footer
