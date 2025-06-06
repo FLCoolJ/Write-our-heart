@@ -3,14 +3,14 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { SiteHeader } from "@/components/shared/site-header"
-import Footer from "@/components/footer"
+import { Footer } from "@/components/footer"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Write Our Heart",
   description: "Simplify your card-sending experience with personalized, meaningful messages.",
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SiteHeader subdomain={isBeta ? "beta" : "main"} showBetaBanner={!isBeta} />
+        <SiteHeader subdomain={isBeta ? "beta" : "main"} showBetaBanner={true} />
         {children}
         <Footer />
       </body>
