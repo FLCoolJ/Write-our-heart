@@ -4,9 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, ChevronDown } from "lucide-react"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import BetaBanner from "@/components/beta-banner"
 
 export default function FAQPage() {
   const faqCategories = [
@@ -26,7 +24,7 @@ export default function FAQPage() {
         {
           question: "Is there a cost for the beta program?",
           answer:
-            "Yes, beta access is $15/month for unlimited cards. This is significantly discounted from our planned launch pricing of $29/month.",
+            "Yes, we offer two subscription tiers for beta: Individual ($4.99/month for 4 cards) and Enterprise ($17.99/month for 8-12 cards). All plans include US postage and envelopes.",
         },
       ],
     },
@@ -36,7 +34,7 @@ export default function FAQPage() {
         {
           question: "How does the personalized poetry work?",
           answer:
-            "You provide details about the recipient, occasion, and your relationship. Our AI creates custom poetry based on this information, which you can review and edit before finalizing your card.",
+            "You provide details about the recipient, occasion, and your relationship. Our program creates custom poetry based on this information, which we then format into beautiful greeting cards.",
         },
         {
           question: "What occasions do you support?",
@@ -46,7 +44,7 @@ export default function FAQPage() {
         {
           question: "Can I edit the poetry before sending?",
           answer:
-            "You can review, edit, and personalize the generated poetry to ensure it perfectly captures your sentiment before finalizing your card.",
+            "At this time, our team handles all poetry creation and editing. When we launch, Enterprise subscribers will have the ability to request edits to their poetry before finalizing cards.",
         },
       ],
     },
@@ -81,7 +79,7 @@ export default function FAQPage() {
         {
           question: "What if I don't like the generated poetry?",
           answer:
-            "You can regenerate the poetry with different inputs, edit it manually, or even write your own. We want you to be completely satisfied with your card.",
+            "During the beta, our team can make adjustments to ensure you're satisfied with your cards. After launch, Enterprise subscribers will have self-service editing capabilities to refine their poetry.",
         },
         {
           question: "Can I save favorite poems for future use?",
@@ -95,7 +93,7 @@ export default function FAQPage() {
         {
           question: "How does billing work?",
           answer:
-            "Beta users pay $15/month for unlimited cards. Billing is automatic and you can cancel anytime. At launch, pricing will be $29/month for unlimited cards.",
+            "We offer two subscription tiers: Individual ($4.99/month for 4 cards) and Enterprise ($17.99/month for 8-12 cards). Beta subscribers lock in these special rates for 12 months after launch.",
         },
         {
           question: "Can I cancel anytime?",
@@ -133,9 +131,6 @@ export default function FAQPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <BetaBanner />
-      <Navbar />
-
       <div className="max-w-4xl mx-auto py-12 px-4">
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center text-gray-400 hover:text-yellow-500">

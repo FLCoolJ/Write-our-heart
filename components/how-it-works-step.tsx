@@ -1,3 +1,4 @@
+import { Card, CardContent } from "@/components/ui/card"
 import { Users, Edit, CheckCircle } from "lucide-react"
 
 interface HowItWorksStepProps {
@@ -17,19 +18,17 @@ export default function HowItWorksStep({ number, title, description, icon }: How
   const IconComponent = iconMap[icon]
 
   return (
-    <div className="text-center space-y-4">
-      <div className="relative">
-        <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl font-bold text-black">{number}</span>
+    <Card className="bg-gray-900 border border-gray-800 hover:border-yellow-500/50 transition-colors">
+      <CardContent className="p-8 text-center">
+        <div className="w-16 h-16 rounded-full bg-yellow-500 text-black flex items-center justify-center mb-6 mx-auto">
+          <span className="font-bold text-xl">{number}</span>
         </div>
-        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-          <div className="w-8 h-8 bg-yellow-500/20 rounded-full flex items-center justify-center">
-            <IconComponent className="h-4 w-4 text-yellow-500" />
-          </div>
+        <div className="mb-4">
+          <IconComponent className="h-8 w-8 text-yellow-500 mx-auto" />
         </div>
-      </div>
-      <h3 className="text-xl font-bold">{title}</h3>
-      <p className="text-gray-400">{description}</p>
-    </div>
+        <h3 className="text-xl font-bold mb-4">{title}</h3>
+        <p className="text-gray-400">{description}</p>
+      </CardContent>
+    </Card>
   )
 }

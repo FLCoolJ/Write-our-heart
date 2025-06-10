@@ -1,60 +1,57 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CheckCircle, Mail, Calendar, Heart, ArrowRight } from "lucide-react"
+import { CheckCircle, Mail, Calendar, Heart, ArrowRight, Check } from "lucide-react"
 import TestimonialCard from "@/components/testimonial-card"
 import PricingCard from "@/components/pricing-card"
 import HowItWorksStep from "@/components/how-it-works-step"
+import Footer from "@/components/footer"
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20">
-          <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-600"></div>
-        </div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Personalized Poetry Cards, Written From Your Heart
-              </h1>
-              <p className="text-lg md:text-xl text-gray-300">
-                Express what you actually feel—without struggling to find the words. We turn your sentiments into
-                beautiful, personalized greeting cards.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link href="/beta-signup">
-                  <Button className="bg-yellow-500 hover:bg-yellow-600 text-black text-lg py-6 px-8">
-                    Join Beta Access
-                  </Button>
-                </Link>
-                <Link href="/samples">
-                  <Button
-                    variant="outline"
-                    className="border-yellow-500 text-yellow-500 hover:bg-yellow-500/10 text-lg py-6 px-8"
-                  >
-                    See Examples
-                  </Button>
-                </Link>
-              </div>
-              <div className="flex items-center gap-2 text-gray-300">
-                <CheckCircle className="h-5 w-5 text-yellow-500" />
-                <span>Includes cards, envelopes & US postage</span>
-              </div>
+      <section className="relative py-20 px-4 bg-gradient-to-b from-black to-gray-900">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <div className="inline-block bg-yellow-500 text-black px-3 py-1 text-sm font-medium rounded-full mb-6">
+              Beta Access Available
             </div>
-            <div className="relative">
-              <div className="relative z-10 rounded-lg overflow-hidden shadow-2xl transform rotate-3 transition-transform hover:rotate-0">
-                <img
-                  src="/images/valentine-card-sample.png"
-                  alt="Personalized Valentine's Day greeting card with red cardinals and roses"
-                  className="w-full h-auto"
-                />
-              </div>
-              <div className="absolute -bottom-6 -left-6 z-0 rounded-lg overflow-hidden shadow-2xl bg-black border border-yellow-500/30 w-full h-full"></div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">Personalized Poetry Cards, Written From Your Heart</h1>
+            <p className="text-xl text-gray-300 mb-8">
+              Express what you actually feel—without struggling to find the words. We turn your sentiments into
+              beautiful, personalized greeting cards.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/beta-signup">
+                <Button className="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-6 text-lg">
+                  Join Beta Access
+                </Button>
+              </Link>
+              <Link href="/samples">
+                <Button
+                  variant="outline"
+                  className="border-yellow-500 text-yellow-500 hover:bg-yellow-500/10 px-8 py-6 text-lg"
+                >
+                  See Examples
+                </Button>
+              </Link>
             </div>
+            <div className="flex items-center mt-6">
+              <Check className="h-5 w-5 text-yellow-500 mr-2" />
+              <span className="text-gray-300">Includes cards, envelopes & US postage</span>
+            </div>
+          </div>
+          <div className="relative">
+            <Image
+              src="/images/valentine-card-sample.png"
+              alt="Valentine's Day card sample"
+              width={600}
+              height={400}
+              className="rounded-lg shadow-2xl"
+            />
           </div>
         </div>
       </section>
@@ -420,6 +417,9 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

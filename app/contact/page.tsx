@@ -11,9 +11,7 @@ import { ArrowLeft, Mail, Send, CheckCircle } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import BetaBanner from "@/components/beta-banner"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -57,9 +55,6 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <BetaBanner />
-      <Navbar />
-
       <div className="max-w-4xl mx-auto py-12 px-4">
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center text-gray-400 hover:text-yellow-500">

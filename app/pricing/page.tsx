@@ -3,16 +3,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Check, X } from "lucide-react"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import BetaBanner from "@/components/beta-banner"
 
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <BetaBanner />
-      <Navbar />
-
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
@@ -32,8 +27,8 @@ export default function PricingPage() {
 
       {/* Pricing Table */}
       <section className="py-10 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Individual Plan */}
             <Card className="bg-black border border-gray-800 h-full relative">
               <CardHeader className="pt-8 pb-6 text-center">
@@ -103,81 +98,12 @@ export default function PricingPage() {
               </CardContent>
             </Card>
 
-            {/* VIP Plan */}
+            {/* Enterprise Plan */}
             <Card className="bg-black border border-yellow-500 h-full relative">
               <div className="absolute -top-4 left-0 right-0 flex justify-center">
                 <Badge className="bg-yellow-500 text-black px-3 py-1">Most Popular</Badge>
               </div>
 
-              <CardHeader className="pt-8 pb-4 text-center">
-                <h3 className="text-xl font-bold text-white">VIP</h3>
-                <div className="mt-4">
-                  <span className="text-4xl font-bold text-white">$9.99</span>
-                  <span className="text-gray-400">/month</span>
-                </div>
-                <p className="text-gray-400 mt-2">For frequent senders</p>
-              </CardHeader>
-
-              <CardContent className="space-y-6">
-                <ul className="space-y-3">
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <Check className="h-5 w-5 text-yellow-500" />
-                    </div>
-                    <span className="ml-3 text-gray-300">8 free cards per month</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <Check className="h-5 w-5 text-yellow-500" />
-                    </div>
-                    <span className="ml-3 text-gray-300">US postage included</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <Check className="h-5 w-5 text-yellow-500" />
-                    </div>
-                    <span className="ml-3 text-gray-300">Personalized poetry</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <Check className="h-5 w-5 text-yellow-500" />
-                    </div>
-                    <span className="ml-3 text-gray-300">Occasion reminders</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <Check className="h-5 w-5 text-yellow-500" />
-                    </div>
-                    <span className="ml-3 text-gray-300">Additional cards: $4.99 each</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <Check className="h-5 w-5 text-yellow-500" />
-                    </div>
-                    <span className="ml-3 text-gray-300">2 free international cards</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0 mt-1">
-                      <X className="h-5 w-5 text-gray-600" />
-                    </div>
-                    <span className="ml-3 text-gray-500">Logo placement</span>
-                  </li>
-                </ul>
-
-                <Link href="/beta-signup" className="block w-full">
-                  <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">Join Beta</Button>
-                </Link>
-
-                <div className="text-center text-sm text-gray-500">
-                  <p>Beta price: $9.99/month</p>
-                  <p>Launch price: $13.99/month</p>
-                  <p className="text-yellow-500">You save: 29%</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Enterprise Plan */}
-            <Card className="bg-black border border-gray-800 h-full relative">
               <CardHeader className="pt-8 pb-6 text-center">
                 <h3 className="text-xl font-bold text-white">Enterprise</h3>
                 <div className="mt-4">
@@ -234,7 +160,7 @@ export default function PricingPage() {
                 </ul>
 
                 <Link href="/beta-signup" className="block w-full">
-                  <Button className="w-full bg-gray-800 hover:bg-gray-700 text-white">Join Beta</Button>
+                  <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">Join Beta</Button>
                 </Link>
 
                 <div className="text-center text-sm text-gray-500">
@@ -244,116 +170,6 @@ export default function PricingPage() {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Comparison Table */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">How We Compare</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              See how Write Our Heart stacks up against other greeting card services.
-            </p>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="py-4 px-6 text-left text-gray-300">Feature</th>
-                  <th className="py-4 px-6 text-center text-white">Write Our Heart</th>
-                  <th className="py-4 px-6 text-center text-gray-400">Handwrytten</th>
-                  <th className="py-4 px-6 text-center text-gray-400">SendOutCards</th>
-                  <th className="py-4 px-6 text-center text-gray-400">American Greetings</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-gray-800">
-                  <td className="py-4 px-6 text-gray-300">Price per card</td>
-                  <td className="py-4 px-6 text-center text-white font-medium">$1.25 - $4.99</td>
-                  <td className="py-4 px-6 text-center text-gray-400">$3.25 - $12+</td>
-                  <td className="py-4 px-6 text-center text-gray-400">$2.98 - $4.18</td>
-                  <td className="py-4 px-6 text-center text-gray-400">$3 - $5</td>
-                </tr>
-                <tr className="border-b border-gray-800">
-                  <td className="py-4 px-6 text-gray-300">Postage included</td>
-                  <td className="py-4 px-6 text-center text-white">
-                    <Check className="h-5 w-5 text-yellow-500 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-800">
-                  <td className="py-4 px-6 text-gray-300">Personalized poetry</td>
-                  <td className="py-4 px-6 text-center text-white">
-                    <Check className="h-5 w-5 text-yellow-500 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-800">
-                  <td className="py-4 px-6 text-gray-300">Occasion reminders</td>
-                  <td className="py-4 px-6 text-center text-white">
-                    <Check className="h-5 w-5 text-yellow-500 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <Check className="h-5 w-5 text-gray-500 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-800">
-                  <td className="py-4 px-6 text-gray-300">Business branding</td>
-                  <td className="py-4 px-6 text-center text-white">
-                    <Check className="h-5 w-5 text-yellow-500 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <Check className="h-5 w-5 text-gray-500 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <Check className="h-5 w-5 text-gray-500 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-4 px-6 text-gray-300">Weekly batch processing</td>
-                  <td className="py-4 px-6 text-center text-white">
-                    <Check className="h-5 w-5 text-yellow-500 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                  <td className="py-4 px-6 text-center text-gray-400">
-                    <X className="h-5 w-5 text-gray-600 mx-auto" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </section>

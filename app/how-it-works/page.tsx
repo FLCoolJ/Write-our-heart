@@ -3,16 +3,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, CheckCircle, Clock, Calendar, Truck, PenTool } from "lucide-react"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import BetaBanner from "@/components/beta-banner"
 
 export default function HowItWorksPage() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <BetaBanner />
-      <Navbar />
-
       <div className="max-w-6xl mx-auto py-12 px-4">
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center text-gray-400 hover:text-yellow-500">
