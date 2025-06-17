@@ -195,71 +195,78 @@ export default function FAQPage() {
           </p>
         </div>
 
-        {/* Security Notice */}
-        <Card className="bg-green-900/20 border border-green-700 mb-8">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Lock className="h-6 w-6 text-green-400" />
-              <h3 className="text-xl font-bold text-green-400">Security & Privacy</h3>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
-              <div>
-                <p>• 256-bit SSL encryption (https://)</p>
-                <p>• Stripe PCI DSS compliant payments</p>
-                <p>• GDPR & CCPA privacy compliance</p>
-              </div>
-              <div>
-                <p>• USPS address validation</p>
-                <p>• Data encrypted at rest & in transit</p>
-                <p>• No data sold to third parties</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Fair Use Notice */}
-        <Card className="bg-red-900/20 border border-red-700 mb-8">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Shield className="h-6 w-6 text-red-400" />
-              <h3 className="text-xl font-bold text-red-400">Fair Use Policy</h3>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
-              <div>
-                <p>• Beta pricing requires continuous subscription</p>
-                <p>• Early cancellation fees apply for heavy usage</p>
-                <p>• One account per billing address</p>
-              </div>
-              <div>
-                <p>• 3 cards max per recipient address/month</p>
-                <p>• USPS address validation required</p>
-                <p>• Cards expire after 3 months</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* FAQ Categories */}
         <div className="space-y-8">
           {faqCategories.map((category, categoryIndex) => (
-            <Card key={categoryIndex} className="bg-gray-900 border border-gray-800">
-              <CardHeader>
-                <CardTitle className="text-2xl text-yellow-500">{category.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {category.questions.map((faq, questionIndex) => (
-                  <Collapsible key={questionIndex}>
-                    <CollapsibleTrigger className="flex items-center justify-between w-full p-4 text-left bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
-                      <span className="font-medium text-white">{faq.question}</span>
-                      <ChevronDown className="h-5 w-5 text-gray-400" />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="p-4 bg-gray-700/80 rounded-b-lg">
-                      <p className="text-gray-100 leading-relaxed">{faq.answer}</p>
-                    </CollapsibleContent>
-                  </Collapsible>
-                ))}
-              </CardContent>
-            </Card>
+            <div key={categoryIndex}>
+              <Card className="bg-gray-900 border border-gray-800">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-yellow-500">{category.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {category.questions.map((faq, questionIndex) => (
+                    <Collapsible key={questionIndex}>
+                      <CollapsibleTrigger className="flex items-center justify-between w-full p-4 text-left bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
+                        <span className="font-medium text-white">{faq.question}</span>
+                        <ChevronDown className="h-5 w-5 text-gray-400" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="p-4 bg-gray-700/80 rounded-b-lg">
+                        <p className="text-gray-100 leading-relaxed">{faq.answer}</p>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  ))}
+                </CardContent>
+              </Card>
+
+              {/* Security & Privacy Boxes - Only show after Security & Privacy section */}
+              {category.title === "Security & Privacy" && (
+                <div className="mt-6 space-y-4">
+                  {/* Security Notice */}
+                  <Card className="bg-green-900/20 border border-green-700">
+                    <CardContent className="p-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Lock className="h-6 w-6 text-green-400" />
+                        <h3 className="text-xl font-bold text-green-400">Security & Privacy</h3>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
+                        <div>
+                          <p>• 256-bit SSL encryption (https://)</p>
+                          <p>• Stripe PCI DSS compliant payments</p>
+                          <p>• GDPR & CCPA privacy compliance</p>
+                        </div>
+                        <div>
+                          <p>• USPS address validation</p>
+                          <p>• Data encrypted at rest & in transit</p>
+                          <p>• No data sold to third parties</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Fair Use Notice */}
+                  <Card className="bg-red-900/20 border border-red-700">
+                    <CardContent className="p-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Shield className="h-6 w-6 text-red-400" />
+                        <h3 className="text-xl font-bold text-red-400">Fair Use Policy</h3>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
+                        <div>
+                          <p>• Beta pricing requires continuous subscription</p>
+                          <p>• Early cancellation fees apply for heavy usage</p>
+                          <p>• One account per billing address</p>
+                        </div>
+                        <div>
+                          <p>• 3 cards max per recipient address/month</p>
+                          <p>• USPS address validation required</p>
+                          <p>• Cards expire after 3 months</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+            </div>
           ))}
         </div>
 
