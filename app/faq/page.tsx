@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, ChevronDown, Shield } from "lucide-react"
+import { ArrowLeft, ChevronDown, Shield, Lock } from "lucide-react"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import Footer from "@/components/footer"
 
@@ -19,12 +19,12 @@ export default function FAQPage() {
         {
           question: "What's included in the beta program?",
           answer:
-            "Early platform access, personalized poetry cards, special beta pricing (40% off Individual, 20% off Enterprise), and direct input on service development.",
+            "Early platform access, personalized poetry cards, special beta pricing (40% off Standard, 20% off Enterprise), and direct input on service development.",
         },
         {
           question: "How much does the beta cost?",
           answer:
-            "Individual: $5.99/month (4 cards, $1.50 each). Enterprise: $23.99/month (8-12 cards, $2.00-$3.00 each). All include premium cards, envelopes, and US postage.",
+            "Standard: $5.99/month (4 cards, $1.50 each). Enterprise: $23.99/month (10 cards, $2.40 each). All include premium cards, envelopes, and US postage.",
         },
       ],
     },
@@ -34,7 +34,7 @@ export default function FAQPage() {
         {
           question: "What's your fair use policy?",
           answer:
-            "We limit 3 cards per recipient address per month, require address validation, allow one account per person/business, and charge early cancellation fees if >75% of monthly cards are used before canceling.",
+            "We limit 3 cards per recipient address per month, require USPS address validation, allow one account per billing address, and charge early cancellation fees if >75% of monthly cards are used before canceling.",
         },
         {
           question: "Why do you have an early cancellation fee?",
@@ -44,12 +44,47 @@ export default function FAQPage() {
         {
           question: "Can I have multiple accounts?",
           answer:
-            "No, we allow one account per person/business, verified by payment method and email. Multiple accounts will be merged or suspended to ensure fair usage for all subscribers.",
+            "No, we allow one account per billing address, verified by payment method and email verification. Multiple accounts will be merged or suspended to ensure fair usage for all subscribers.",
         },
         {
           question: "How do you prevent address abuse?",
           answer:
-            "All addresses are validated before printing. We limit 3 cards per recipient address per month and flag suspicious patterns like multiple cards to the same address from different accounts.",
+            "All addresses are validated through USPS API before printing. We limit 3 cards per recipient address per month and flag suspicious patterns like multiple cards to the same address from different accounts.",
+        },
+      ],
+    },
+    {
+      title: "Security & Privacy",
+      questions: [
+        {
+          question: "How secure is my payment information?",
+          answer:
+            "We use Stripe for payment processing with bank-level security, PCI DSS compliance, and 256-bit SSL encryption. Your payment details are never stored on our servers - they're securely tokenized by Stripe.",
+        },
+        {
+          question: "What about data protection and privacy?",
+          answer:
+            "We follow GDPR and CCPA privacy standards. Your personal data is encrypted at rest and in transit, stored securely, and never sold to third parties. You can request data deletion at any time.",
+        },
+        {
+          question: "Do you have SSL certification?",
+          answer:
+            "Yes, our entire platform uses 256-bit SSL/TLS encryption (https://) to protect all data transmission. You'll see the lock icon in your browser when using our site.",
+        },
+        {
+          question: "How do you validate addresses?",
+          answer:
+            "We use USPS Address Validation API to verify all recipient addresses before printing. This ensures accurate delivery and prevents fraudulent or fake addresses from being used.",
+        },
+        {
+          question: "What data do you collect and why?",
+          answer:
+            "We collect: email (for account access), billing info (for payments), recipient addresses (for delivery), IP addresses (for security), and card preferences (for personalization). All data is used solely for service delivery and fraud prevention.",
+        },
+        {
+          question: "Can I delete my account and data?",
+          answer:
+            "Yes, you can request complete account deletion through our contact form. We'll permanently delete all your personal data within 30 days, except what's legally required for tax/payment records (kept for 7 years).",
         },
       ],
     },
@@ -89,7 +124,7 @@ export default function FAQPage() {
         {
           question: "Do you deliver internationally?",
           answer:
-            "Enterprise plans include 4 free international cards monthly. Individual plans can purchase international shipping for $6.99 per card (includes international postage).",
+            "Enterprise plans include 4 free international cards monthly. Standard plans can purchase international shipping for $6.99 per card (includes international postage).",
         },
       ],
     },
@@ -99,7 +134,7 @@ export default function FAQPage() {
         {
           question: "How does beta pricing work?",
           answer:
-            "Beta subscribers get Individual at $5.99 (vs $9.99 launch) and Enterprise at $23.99 (vs $29.99 launch). You must maintain continuous active subscription to keep beta rates for 12 months after launch.",
+            "Beta subscribers get Standard at $5.99 (vs $9.99 launch) and Enterprise at $23.99 (vs $29.99 launch). You must maintain continuous active subscription to keep beta rates for 12 months after launch.",
         },
         {
           question: "What happens if I pause my subscription?",
@@ -155,10 +190,32 @@ export default function FAQPage() {
           <Badge className="bg-yellow-500 text-black px-3 py-1 text-sm mb-4">Help Center</Badge>
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Frequently Asked Questions</h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Find answers to common questions about Write Our Heart, including our fair use policies and anti-gaming
+            Find answers to common questions about Write Our Heart, including our security, privacy, and anti-gaming
             measures.
           </p>
         </div>
+
+        {/* Security Notice */}
+        <Card className="bg-green-900/20 border border-green-700 mb-8">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <Lock className="h-6 w-6 text-green-400" />
+              <h3 className="text-xl font-bold text-green-400">Security & Privacy</h3>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
+              <div>
+                <p>• 256-bit SSL encryption (https://)</p>
+                <p>• Stripe PCI DSS compliant payments</p>
+                <p>• GDPR & CCPA privacy compliance</p>
+              </div>
+              <div>
+                <p>• USPS address validation</p>
+                <p>• Data encrypted at rest & in transit</p>
+                <p>• No data sold to third parties</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Fair Use Notice */}
         <Card className="bg-red-900/20 border border-red-700 mb-8">
@@ -171,11 +228,11 @@ export default function FAQPage() {
               <div>
                 <p>• Beta pricing requires continuous subscription</p>
                 <p>• Early cancellation fees apply for heavy usage</p>
-                <p>• One account per person/business</p>
+                <p>• One account per billing address</p>
               </div>
               <div>
                 <p>• 3 cards max per recipient address/month</p>
-                <p>• Address validation required</p>
+                <p>• USPS address validation required</p>
                 <p>• Cards expire after 3 months</p>
               </div>
             </div>
@@ -212,7 +269,8 @@ export default function FAQPage() {
             <CardContent className="p-8">
               <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
               <p className="text-lg mb-6">
-                Our support team is here to help you understand our policies and get the most out of Write Our Heart.
+                Our support team is here to help you understand our security policies and get the most out of Write Our
+                Heart.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/contact">

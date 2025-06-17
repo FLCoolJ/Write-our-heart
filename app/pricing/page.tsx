@@ -29,10 +29,10 @@ export default function PricingPage() {
       <section className="py-10 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Individual Plan */}
+            {/* Standard Plan */}
             <Card className="bg-black border border-gray-800 h-full relative">
               <CardHeader className="pt-8 pb-6 text-center">
-                <h3 className="text-xl font-bold text-white">Individual</h3>
+                <h3 className="text-xl font-bold text-white">Standard</h3>
                 <div className="mt-4">
                   <span className="text-4xl font-bold text-white">$5.99</span>
                   <span className="text-gray-400">/month</span>
@@ -107,9 +107,9 @@ export default function PricingPage() {
                 <div className="text-center text-sm space-y-1">
                   <div className="bg-green-900/30 border border-green-700 rounded p-3">
                     <p className="text-green-400 font-semibold">Beta Savings</p>
-                    <p className="text-gray-300">Beta: $5.99/month</p>
-                    <p className="text-gray-300">Launch: $9.99/month</p>
-                    <p className="text-yellow-500 font-bold">You save: $4.00/month (40%)</p>
+                    <p className="text-gray-300">Beta: $5.99/month ($1.50 per card)</p>
+                    <p className="text-gray-300">Launch: $9.99/month ($2.50 per card)</p>
+                    <p className="text-yellow-500 font-bold">You save: $1.00 per card including mailing!</p>
                   </div>
 
                   {/* Small print */}
@@ -139,7 +139,7 @@ export default function PricingPage() {
                 <div className="mt-3 p-2 bg-gray-900 rounded-lg">
                   <div className="flex items-center justify-center gap-2 text-sm text-yellow-500">
                     <Calculator className="h-4 w-4" />
-                    <span>$2.00-$3.00 per card (including postage)</span>
+                    <span>$2.40 per card (including postage)</span>
                   </div>
                 </div>
               </CardHeader>
@@ -150,7 +150,7 @@ export default function PricingPage() {
                     <div className="flex-shrink-0 mt-1">
                       <Check className="h-5 w-5 text-yellow-500" />
                     </div>
-                    <span className="ml-3 text-gray-300">8-12 premium cards per month</span>
+                    <span className="ml-3 text-gray-300">10 premium cards per month</span>
                   </li>
                   <li className="flex items-start">
                     <div className="flex-shrink-0 mt-1">
@@ -203,9 +203,9 @@ export default function PricingPage() {
                 <div className="text-center text-sm space-y-1">
                   <div className="bg-green-900/30 border border-green-700 rounded p-3">
                     <p className="text-green-400 font-semibold">Beta Savings</p>
-                    <p className="text-gray-300">Beta: $23.99/month</p>
-                    <p className="text-gray-300">Launch: $29.99/month</p>
-                    <p className="text-yellow-500 font-bold">You save: $6.00/month (20%)</p>
+                    <p className="text-gray-300">Beta: $23.99/month ($2.40 per card)</p>
+                    <p className="text-gray-300">Launch: $29.99/month ($3.00 per card)</p>
+                    <p className="text-yellow-500 font-bold">You save: $0.60 per card including mailing!</p>
                   </div>
 
                   {/* Small print */}
@@ -254,9 +254,9 @@ export default function PricingPage() {
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-2">How does the subscription work?</h3>
                 <p className="text-gray-400">
-                  You receive card credits each month based on your plan. Cards are distributed weekly and expire after
-                  3 months to ensure fresh, timely content. Beta pricing requires continuous active subscription with
-                  verified email and billing information.
+                  You receive card credits each month based on your plan (Standard: 4 cards, Enterprise: 10 cards).
+                  Cards are distributed weekly and expire after 3 months to ensure fresh, timely content. Beta pricing
+                  requires continuous active subscription with verified email and billing information.
                 </p>
               </CardContent>
             </Card>
@@ -312,7 +312,8 @@ export default function PricingPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">Lock In Beta Pricing Today</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join our beta program and save up to 40% with continuous subscription. Limited time offer!
+            Join our beta program and save $1.00 per card on Standard or $0.60 per card on Enterprise. Limited time
+            offer!
           </p>
           <Button className="bg-black hover:bg-gray-800 text-white text-lg py-6 px-8">Join the Beta</Button>
           <p className="mt-4">
