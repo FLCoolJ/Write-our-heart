@@ -2,8 +2,9 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Menu, X, Heart } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 interface SiteHeaderProps {
   subdomain?: "main" | "beta"
@@ -41,12 +42,12 @@ export function SiteHeader({ subdomain = "main", showBetaBanner = false, classNa
         <div className="bg-yellow-500 text-black py-2 px-4">
           <div className="max-w-6xl mx-auto flex items-center justify-between">
             <div className="flex items-center">
-              <span className="font-medium">🚀 Beta Access Available!</span>
-              <span className="hidden md:inline ml-2">Lock in special pricing for 12 months after launch.</span>
+              <span className="font-medium">🚀 New Launch Pricing Available!</span>
+              <span className="hidden md:inline ml-2">Choose from 3 flexible plans with annual savings.</span>
             </div>
             <div className="flex items-center">
-              <Link href="/beta-signup" className="underline font-medium mr-4">
-                Join Now
+              <Link href="/pricing" className="underline font-medium mr-4">
+                View Plans
               </Link>
               <button onClick={() => setIsBannerVisible(false)} className="text-black hover:text-gray-800">
                 <X className="h-4 w-4" />
@@ -61,7 +62,13 @@ export function SiteHeader({ subdomain = "main", showBetaBanner = false, classNa
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <Link href={isBeta ? "/dashboard" : "/"} className="flex items-center">
-                <Heart className="h-8 w-8 text-yellow-500 mr-2" />
+                <Image
+                  src="/images/logo-symbol.png"
+                  alt="Write Our Heart Logo"
+                  width={32}
+                  height={32}
+                  className="mr-2"
+                />
                 <span className="text-xl font-bold text-white">
                   Write Our Heart
                   {isBeta && <span className="ml-2 text-xs bg-yellow-500 text-black px-2 py-1 rounded">BETA</span>}
@@ -94,8 +101,8 @@ export function SiteHeader({ subdomain = "main", showBetaBanner = false, classNa
                   </Link>
                 </>
               ) : (
-                <Link href="/beta-signup">
-                  <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">Join Beta</Button>
+                <Link href="https://launch.writeourheart.com">
+                  <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">Get Started</Button>
                 </Link>
               )}
             </div>
@@ -144,11 +151,11 @@ export function SiteHeader({ subdomain = "main", showBetaBanner = false, classNa
                   </>
                 ) : (
                   <Link
-                    href="/beta-signup"
+                    href="https://launch.writeourheart.com"
                     className="block px-3 py-2 text-base font-medium text-yellow-500 hover:text-yellow-400 hover:bg-gray-800 rounded-md"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Join Beta
+                    Get Started
                   </Link>
                 )}
               </div>
