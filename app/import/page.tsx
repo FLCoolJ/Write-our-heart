@@ -2,186 +2,156 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
+import { useDropzone } from "react-dropzone"
+import Papa from "papaparse"
 import { useRouter } from "next/navigation"
+import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Upload, FileSpreadsheet, AlertCircle, CheckCircle } from "lucide-react"
-import * as XLSX from "xlsx"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Textarea } from "@/components/ui/textarea"
 
-export default function ImportContacts() {
+export default function ImportPage() {
+  const [csvData, setCsvData] = useState<any[]>([])
+  const [columnMapping, setColumnMapping] = useState<{
+    [key: string]: string
+  }>({})
+  const [isImporting, setIsImporting] = useState(false)
   const router = useRouter()
-  const [file, setFile] = useState<File | null>(null)
-  const [preview, setPreview] = useState<any[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [importing, setImporting] = useState(false)
-  const [success, setSuccess] = useState(false)
+  const { toast } = useToast()
+  const [description, setDescription] = useState("")
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0]
-    if (!selectedFile) return
-
-    setFile(selectedFile)
-    setError(null)
-
-    // Read the Excel file
-    const reader = new FileReader()
-    reader.onload = (evt) => {
-      try {
-        const bstr = evt.target?.result
-        const wb = XLSX.read(bstr, { type: "binary" })
-        const wsname = wb.SheetNames[0]
-        const ws = wb.Sheets[wsname]
-        const data = XLSX.utils.sheet_to_json(ws)
-
-        // Validate the data structure
-        if (data.length === 0) {
-          setError("The file appears to be empty")
-          return
-        }
-
-        // Check for required columns
-        const requiredColumns = ["name", "relationship"]
-        const firstRow = data[0] as any
-        const missingColumns = requiredColumns.filter((col) => !(col in firstRow))
-
-        if (missingColumns.length > 0) {
-          setError(`Missing required columns: ${missingColumns.join(", ")}`)
-          return
-        }
-
-        // Show preview (first 5 rows)
-        setPreview(data.slice(0, 5))
-      } catch (e) {
-        setError("Failed to parse the Excel file. Please ensure it's a valid .xlsx file.")
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0]
+        Papa.parse(file, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            setCsvData(results.data)
+            // Automatically map columns based on common names (e.g., "name" -> "Name")
+            if (results.meta.fields) {
+              const initialMapping: { [key: string]: string } = {}
+              results.meta.fields.forEach((field) => {
+                initialMapping[field] = field // Default to same name
+              })
+              setColumnMapping(initialMapping)
+            }
+          },
+          error: (error) => {
+            toast({
+              title: "Error parsing CSV",
+              description: error.message,
+              variant: "destructive",
+            })
+          },
+        })
       }
-    }
-    reader.readAsBinaryString(selectedFile)
+    },
+    [toast],
+  )
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+  const handleColumnMappingChange = (column: string, event: React.ChangeEvent<HTMLInputElement>) => {
+    setColumnMapping({ ...columnMapping, [column]: event.target.value })
   }
 
   const handleImport = async () => {
-    if (!file) return
-
-    setImporting(true)
-
+    setIsImporting(true)
     try {
-      // In a real app, this would send the file to your server
-      // For the beta, we'll just simulate processing
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      const mappedData = csvData.map((item) => {
+        const newItem: { [key: string]: any } = {}
+        Object.keys(columnMapping).forEach((csvColumn) => {
+          newItem[columnMapping[csvColumn]] = item[csvColumn]
+        })
+        return newItem
+      })
 
-      // Show success message
-      setSuccess(true)
+      // Send the mapped data to your API endpoint
+      const response = await fetch("/api/items", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ items: mappedData, description: description }),
+      })
 
-      // In a real app, redirect to hearts page after import
-      setTimeout(() => {
-        router.push("/my-hearts")
-      }, 2000)
-    } catch (e) {
-      setError("Failed to import contacts. Please try again.")
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      toast({
+        title: "Import Successful",
+        description: "Your data has been successfully imported.",
+      })
+      router.push("/") // Redirect to home page or appropriate route
+    } catch (error: any) {
+      toast({
+        title: "Import Failed",
+        description: error.message || "An error occurred during import.",
+        variant: "destructive",
+      })
     } finally {
-      setImporting(false)
+      setIsImporting(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-400 to-yellow-500 p-4">
-      <div className="max-w-4xl mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold flex items-center">
-              <FileSpreadsheet className="mr-2 h-6 w-6" />
-              Import Contacts from Excel
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {!success ? (
-              <>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                  <Upload className="h-10 w-10 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Upload Excel File</h3>
-                  <p className="text-sm text-gray-500 mb-4">
-                    Upload an Excel file with your contacts. The file should have columns for name, relationship, email,
-                    phone, etc.
-                  </p>
-                  <Input type="file" accept=".xlsx,.xls" onChange={handleFileChange} className="max-w-xs mx-auto" />
-                  <div className="mt-4 text-xs text-gray-500">
-                    <p>Required columns: name, relationship</p>
-                    <p>Optional: email, phone, address, birthday, etc.</p>
-                  </div>
-                </div>
-
-                {error && (
-                  <div className="bg-red-50 border border-red-200 rounded-md p-4 flex items-start">
-                    <AlertCircle className="h-5 w-5 text-red-500 mr-2 mt-0.5" />
-                    <p className="text-red-800">{error}</p>
-                  </div>
-                )}
-
-                {preview.length > 0 && (
-                  <div className="space-y-4">
-                    <h3 className="font-medium">Preview (First 5 Contacts)</h3>
-                    <div className="border rounded-md overflow-x-auto">
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            {Object.keys(preview[0]).map((key) => (
-                              <TableHead key={key}>{key}</TableHead>
-                            ))}
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {preview.map((row, i) => (
-                            <TableRow key={i}>
-                              {Object.values(row).map((value: any, j) => (
-                                <TableCell key={j}>{value}</TableCell>
-                              ))}
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <p className="text-sm text-gray-500">
-                        {preview.length} of {preview.length} contacts shown
-                      </p>
-                      <Button
-                        onClick={handleImport}
-                        disabled={importing}
-                        className="bg-yellow-500 hover:bg-yellow-600 text-black"
-                      >
-                        {importing ? "Importing..." : "Import Contacts"}
-                      </Button>
-                    </div>
-
-                    <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
-                      <h4 className="font-medium text-blue-800 mb-2">Data Privacy Notice</h4>
-                      <p className="text-sm text-blue-700">
-                        Your contact data is securely processed and stored. We do not share this information with third
-                        parties. By uploading this file, you confirm you have permission to use this contact
-                        information.
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </>
+    <div className="container mx-auto py-10">
+      <Card>
+        <CardHeader>
+          <CardTitle>Import Items from CSV</CardTitle>
+          <CardDescription>Upload a CSV file to import items. Website pricing applies.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div
+            {...getRootProps()}
+            className="dropzone border-2 border-dashed rounded-md p-6 text-center cursor-pointer"
+          >
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the files here ...</p>
             ) : (
-              <div className="text-center py-8">
-                <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-medium text-green-800 mb-2">Import Successful!</h3>
-                <p className="text-gray-600 mb-6">Your contacts have been imported successfully.</p>
-                <Button
-                  onClick={() => router.push("/my-hearts")}
-                  className="bg-yellow-500 hover:bg-yellow-600 text-black"
-                >
-                  View My Hearts
-                </Button>
-              </div>
+              <p>Drag 'n' drop some files here, or click to select files</p>
             )}
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+
+          {csvData.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold mb-4">Column Mapping</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {Object.keys(columnMapping).map((column) => (
+                  <div key={column}>
+                    <Label htmlFor={`mapping-${column}`}>{column}</Label>
+                    <Input
+                      type="text"
+                      id={`mapping-${column}`}
+                      value={columnMapping[column]}
+                      onChange={(event) => handleColumnMappingChange(column, event)}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4">
+                <Label htmlFor="description">Description (Optional)</Label>
+                <Textarea
+                  id="description"
+                  placeholder="Enter a description for this import"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <Button className="mt-6" onClick={handleImport} disabled={isImporting}>
+                {isImporting ? "Importing..." : "Import"}
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 }

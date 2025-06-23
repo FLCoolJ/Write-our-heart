@@ -50,9 +50,11 @@
     "next": "15.2.4",
     "next-themes": "^0.4.4",
     "nodemailer": "latest",
+    "papaparse": "latest",
     "react": "^19",
     "react-day-picker": "8.10.1",
     "react-dom": "^19",
+    "react-dropzone": "latest",
     "react-hook-form": "^7.54.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "latest",
@@ -62,7 +64,6 @@
     "tailwindcss-animate": "^1.0.7",
     "twilio": "latest",
     "vaul": "^0.9.6",
-    "xlsx": "latest",
     "zod": "^3.24.1"
   },
   "devDependencies": {

@@ -12,19 +12,9 @@ export default function FAQPage() {
       title: "Getting Started",
       questions: [
         {
-          question: "How do I join the beta program?",
+          question: "How do I join the waiting list?",
           answer:
-            "Click 'Join Beta' and complete signup with payment verification. We'll send access details within 24-48 hours. Beta pricing requires continuous active subscription.",
-        },
-        {
-          question: "What's included in the beta program?",
-          answer:
-            "Early platform access, personalized poetry cards, special beta pricing (40% off Standard, 20% off Enterprise), and direct input on service development.",
-        },
-        {
-          question: "How much does the beta cost?",
-          answer:
-            "Standard: $5.99/month (4 cards, $1.50 each). Enterprise: $23.99/month (10 cards, $2.40 each). All include premium cards, envelopes, and US postage.",
+            "Click 'Join Waiting List' to be notified when Write Our Heart goes live. You'll be among the first to access our personalized poetry card service.",
         },
       ],
     },
@@ -104,7 +94,7 @@ export default function FAQPage() {
         {
           question: "Can I edit poetry before sending?",
           answer:
-            "Currently our team handles poetry creation. Enterprise subscribers will get self-service editing capabilities after launch. During beta, contact support for adjustments.",
+            "Currently our team handles poetry creation. Enterprise subscribers will get self-service editing capabilities after launch. Contact support for adjustments.",
         },
       ],
     },
@@ -114,17 +104,16 @@ export default function FAQPage() {
         {
           question: "How long does delivery take?",
           answer:
-            "Cards are printed and mailed every Tuesday. Orders by Monday are printed that week and arrive within 3-5 business days via USPS. International delivery adds 7-14 days.",
+            "Once the cards are printed and mailed within a couple days going through the USPS within 3-5 business days.",
         },
         {
           question: "Can I schedule cards in advance?",
           answer:
-            "Yes! Schedule cards for specific dates up to 6 months ahead. Perfect for birthdays, anniversaries, and recurring occasions. Cards expire 3 months after creation if unused.",
+            "Yes! Schedule cards for specific dates up to 6 months ahead. Perfect for birthdays, anniversaries, and recurring occasions. Cards expire 2 months after creation if unused.",
         },
         {
           question: "Do you deliver internationally?",
-          answer:
-            "Enterprise plans include 4 free international cards monthly. Standard plans can purchase international shipping for $6.99 per card (includes international postage).",
+          answer: "During the beta process no international mail but when we go live you will have that opportunity.",
         },
       ],
     },
@@ -132,24 +121,14 @@ export default function FAQPage() {
       title: "Account & Billing",
       questions: [
         {
-          question: "How does beta pricing work?",
-          answer:
-            "Beta subscribers get Standard at $5.99 (vs $9.99 launch) and Enterprise at $23.99 (vs $29.99 launch). You must maintain continuous active subscription to keep beta rates for 12 months after launch.",
-        },
-        {
-          question: "What happens if I pause my subscription?",
-          answer:
-            "Pausing or canceling your subscription means you'll pay standard pricing when you reactivate. Beta pricing requires continuous active subscription - no breaks allowed.",
-        },
-        {
-          question: "Why do cards expire after 3 months?",
+          question: "Why do cards expire after 2 months?",
           answer:
             "Card expiration prevents hoarding, ensures timely content, and helps us manage printing costs. It encourages regular use rather than accumulating cards for bulk sending.",
         },
         {
           question: "What happens to unused cards?",
           answer:
-            "Unused cards expire after 3 months. This policy ensures fresh content and prevents system abuse while giving you reasonable flexibility for scheduling.",
+            "Unused cards expire after 2 months. This policy ensures fresh content and prevents system abuse while giving you reasonable flexibility for scheduling.",
         },
       ],
     },
@@ -159,7 +138,7 @@ export default function FAQPage() {
         {
           question: "What if I have technical issues?",
           answer:
-            "Contact support via our contact form or email. We respond within 24 hours during beta. Include your account email and detailed description of the issue.",
+            "Contact support via our contact form or email. We respond within 24 hours. Include your account email and detailed description of the issue.",
         },
         {
           question: "Is my information secure?",
@@ -252,14 +231,14 @@ export default function FAQPage() {
                       </div>
                       <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
                         <div>
-                          <p>• Beta pricing requires continuous subscription</p>
-                          <p>• Early cancellation fees apply for heavy usage</p>
                           <p>• One account per billing address</p>
+                          <p>• Early cancellation fees apply for heavy usage</p>
+                          <p>• 3 cards max per recipient address/month</p>
                         </div>
                         <div>
-                          <p>• 3 cards max per recipient address/month</p>
                           <p>• USPS address validation required</p>
-                          <p>• Cards expire after 3 months</p>
+                          <p>• Cards expire after 2 months</p>
+                          <p>• Account activity monitored</p>
                         </div>
                       </div>
                     </CardContent>
@@ -283,9 +262,9 @@ export default function FAQPage() {
                 <Link href="/contact">
                   <Button className="bg-black hover:bg-gray-800 text-white">Contact Support</Button>
                 </Link>
-                <Link href="/beta-signup">
+                <Link href="https://launch.writeourheart.com">
                   <Button variant="outline" className="border-black text-black hover:bg-black/10">
-                    Join Beta Program
+                    Join Waiting List
                   </Button>
                 </Link>
               </div>

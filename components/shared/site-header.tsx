@@ -8,11 +8,10 @@ import Image from "next/image"
 
 interface SiteHeaderProps {
   subdomain?: "main" | "beta"
-  showBetaBanner?: boolean
   className?: string
 }
 
-export function SiteHeader({ subdomain = "main", showBetaBanner = false, className }: SiteHeaderProps) {
+export function SiteHeader({ subdomain = "main", className }: SiteHeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isBannerVisible, setIsBannerVisible] = useState(true)
   const isBeta = subdomain === "beta"
@@ -34,19 +33,19 @@ export function SiteHeader({ subdomain = "main", showBetaBanner = false, classNa
     { href: "/contact", label: "Support" },
   ]
 
-  const navItems = isBeta ? betaNavItems : mainNavItems
+  const navItems = mainNavItems
 
   return (
     <>
-      {showBetaBanner && isBannerVisible && (
+      {isBannerVisible && (
         <div className="bg-yellow-500 text-black py-2 px-4">
           <div className="max-w-6xl mx-auto flex items-center justify-between">
             <div className="flex items-center">
-              <span className="font-medium">🚀 New Launch Pricing Available!</span>
+              <span className="font-medium">🚀 Join Our Waiting List!</span>
               <span className="hidden md:inline ml-2">Choose from 3 flexible plans with annual savings.</span>
             </div>
             <div className="flex items-center">
-              <Link href="/pricing" className="underline font-medium mr-4">
+              <Link href="https://launch.writeourheart.com" className="underline font-medium mr-4">
                 View Plans
               </Link>
               <button onClick={() => setIsBannerVisible(false)} className="text-black hover:text-gray-800">
@@ -61,7 +60,7 @@ export function SiteHeader({ subdomain = "main", showBetaBanner = false, classNa
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <Link href={isBeta ? "/dashboard" : "/"} className="flex items-center">
+              <Link href={"/"} className="flex items-center">
                 <Image
                   src="/images/logo-symbol.png"
                   alt="Write Our Heart Logo"
@@ -69,10 +68,7 @@ export function SiteHeader({ subdomain = "main", showBetaBanner = false, classNa
                   height={32}
                   className="mr-2"
                 />
-                <span className="text-xl font-bold text-white">
-                  Write Our Heart
-                  {isBeta && <span className="ml-2 text-xs bg-yellow-500 text-black px-2 py-1 rounded">BETA</span>}
-                </span>
+                <span className="text-xl font-bold text-white">Write Our Heart</span>
               </Link>
             </div>
 
@@ -89,22 +85,9 @@ export function SiteHeader({ subdomain = "main", showBetaBanner = false, classNa
             </nav>
 
             <div className="hidden md:flex items-center space-x-4">
-              {isBeta ? (
-                <>
-                  <Link href="/account">
-                    <Button variant="outline" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500/10">
-                      Account
-                    </Button>
-                  </Link>
-                  <Link href="https://writeourheart.com">
-                    <Button className="bg-gray-600 hover:bg-gray-700 text-white">Main Site</Button>
-                  </Link>
-                </>
-              ) : (
-                <Link href="https://launch.writeourheart.com">
-                  <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">Get Started</Button>
-                </Link>
-              )}
+              <Link href="https://launch.writeourheart.com">
+                <Button className="bg-yellow-500 hover:bg-yellow-600 text-black">Join Waiting List</Button>
+              </Link>
             </div>
 
             <div className="md:hidden">
@@ -132,32 +115,13 @@ export function SiteHeader({ subdomain = "main", showBetaBanner = false, classNa
             </div>
             <div className="pt-4 pb-3 border-t border-gray-800">
               <div className="mt-3 px-2 space-y-1">
-                {isBeta ? (
-                  <>
-                    <Link
-                      href="/account"
-                      className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-md"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Account Settings
-                    </Link>
-                    <Link
-                      href="https://writeourheart.com"
-                      className="block px-3 py-2 text-base font-medium text-yellow-500 hover:text-yellow-400 hover:bg-gray-800 rounded-md"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Return to Main Site
-                    </Link>
-                  </>
-                ) : (
-                  <Link
-                    href="https://launch.writeourheart.com"
-                    className="block px-3 py-2 text-base font-medium text-yellow-500 hover:text-yellow-400 hover:bg-gray-800 rounded-md"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Get Started
-                  </Link>
-                )}
+                <Link
+                  href="https://launch.writeourheart.com"
+                  className="block px-3 py-2 text-base font-medium text-yellow-500 hover:text-yellow-400 hover:bg-gray-800 rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Join Waiting List
+                </Link>
               </div>
             </div>
           </div>

@@ -1,40 +1,31 @@
 "use client"
-
 import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Heart, CheckCircle, Mail } from "lucide-react"
 
-export default function Confirmation() {
+const ConfirmationPage = () => {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center p-4">
-      <Card className="w-full max-w-lg">
-        <CardHeader className="text-center">
-          <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-          <CardTitle className="text-3xl font-bold text-black">You're all set!</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6 text-center">
-          <div className="space-y-4">
-            <Heart className="w-12 h-12 text-yellow-600 mx-auto" />
-            <p className="text-gray-700 text-lg">Your Heart has been added successfully!</p>
-            <div className="bg-white/20 rounded-lg p-4">
-              <Mail className="w-8 h-8 text-black mx-auto mb-2" />
-              <p className="text-black font-medium">
-                You'll receive email confirmations when cards are scheduled and sent.
-              </p>
-            </div>
-          </div>
-
-          <Button
-            onClick={() => router.push("/my-hearts")}
-            className="w-full bg-black hover:bg-gray-800 text-white text-lg py-3"
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-96">
+        <h1 className="text-2xl font-semibold text-center mb-4">Waiting List Confirmed</h1>
+        <p className="text-gray-700 mb-4 text-center">Thank you for joining our waiting list!</p>
+        <p className="text-gray-700 mb-4 text-center">
+          We're excited to have you. We'll notify you when a spot opens up.
+        </p>
+        <p className="text-gray-700 mb-4 text-center">
+          In the meantime, you can learn more about our features and pricing on our website.
+        </p>
+        <div className="flex justify-center">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            onClick={() => router.push("/")}
           >
-            Start Sending Cards
-          </Button>
-        </CardContent>
-      </Card>
+            Go to Website
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
+
+export default ConfirmationPage

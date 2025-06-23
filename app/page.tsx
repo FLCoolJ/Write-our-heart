@@ -16,9 +16,6 @@ export default function HomePage() {
       <section className="relative py-20 px-4 bg-gradient-to-b from-black to-gray-900">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="inline-block bg-yellow-500 text-black px-3 py-1 text-sm font-medium rounded-full mb-6">
-              Beta Access Available
-            </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Personalized Poetry Cards, Written From Your Heart</h1>
             <p className="text-xl text-gray-300 mb-8">
               Express what you actually feel—without struggling to find the words. We turn your sentiments into
@@ -27,7 +24,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/beta-signup">
                 <Button className="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-6 text-lg">
-                  Join Beta Access
+                  Join Waiting List
                 </Button>
               </Link>
               <Link href="/samples">
@@ -153,11 +150,9 @@ export default function HomePage() {
       <section className="py-20 px-4 bg-gradient-to-br from-gray-900 to-black">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-yellow-500 text-black px-3 py-1 text-sm mb-4">Beta Pricing</Badge>
+            <Badge className="bg-yellow-500 text-black px-3 py-1 text-sm mb-4">Launch Pricing</Badge>
             <h2 className="text-3xl md:text-5xl font-bold mb-6">Simple, Transparent Pricing</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Lock in our special beta rates for 12 months after launch.
-            </p>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">Lock in our special launch rates for 12 months.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -173,7 +168,7 @@ export default function HomePage() {
                 "Occasion reminders",
                 "Additional cards: $4.99 each",
               ]}
-              buttonText="Join Beta"
+              buttonText="Join Waiting List"
               buttonLink="/beta-signup"
               popular={false}
             />
@@ -190,7 +185,7 @@ export default function HomePage() {
                 "Team management",
                 "Additional cards: $4.99 each",
               ]}
-              buttonText="Join Beta"
+              buttonText="Join Waiting List"
               buttonLink="/beta-signup"
               popular={true}
             />
@@ -245,7 +240,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">Never Miss Another Important Occasion</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join our beta program today and lock in special pricing for 12 months after launch.
+            Join our waiting list today and lock in special pricing for 12 months after launch.
           </p>
           <Link href="/beta-signup">
             <Button className="bg-black hover:bg-gray-800 text-white text-lg py-6 px-8">Get Started Now</Button>
@@ -404,10 +399,10 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to Express What's in Your Heart?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join our beta program today and start sending personalized poetry cards to the people who matter most.
+            Join our waiting list today and start sending personalized poetry cards to the people who matter most.
           </p>
           <Link href="/beta-signup">
-            <Button className="bg-black hover:bg-gray-800 text-white text-lg py-6 px-8">Join the Beta</Button>
+            <Button className="bg-black hover:bg-gray-800 text-white text-lg py-6 px-8">Join the Waiting List</Button>
           </Link>
           <p className="mt-4">
             Questions?{" "}

@@ -1,36 +1,32 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { XCircle } from "lucide-react"
 
-export default function SubscriptionCancelPage() {
+export default function CancelPage() {
   const router = useRouter()
 
+  useEffect(() => {
+    // Simulate cancellation process
+    const timer = setTimeout(() => {
+      alert("Your subscription has been cancelled. You will retain access until the end of your current billing cycle.")
+      router.push("/")
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [router])
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center p-4">
+    <div className="flex justify-center items-center h-screen bg-gray-100">
       <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <XCircle className="h-16 w-16 text-gray-500 mx-auto mb-4" />
-          <CardTitle className="text-2xl">Subscription Cancelled</CardTitle>
-        </CardHeader>
-        <CardContent className="text-center space-y-4">
-          <p>You've cancelled the subscription process. No charges have been made.</p>
-          <p className="text-sm text-gray-600">
-            If you have any questions or need assistance, please contact our support team.
-          </p>
-          <div className="pt-4 space-y-2">
-            <Button
-              onClick={() => router.push("/subscription")}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black"
-            >
-              Try Again
-            </Button>
-            <Button variant="outline" onClick={() => router.push("/")} className="w-full">
-              Return to Home
-            </Button>
-          </div>
+        <CardContent className="p-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-lg mb-4">Cancelling your subscription...</p>
+          <Button onClick={() => router.push("/")} variant="outline">
+            Return Home
+          </Button>
         </CardContent>
       </Card>
     </div>
