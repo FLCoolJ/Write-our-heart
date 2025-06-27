@@ -7,7 +7,7 @@ const AddHeartPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    plan: "pro", // Default to pro
+    plan: "heartbeat", // Default to heartbeat
     message: "",
   })
 
@@ -35,7 +35,7 @@ const AddHeartPage = () => {
         setFormData({
           name: "",
           email: "",
-          plan: "pro",
+          plan: "heartbeat",
           message: "",
         })
       } else {

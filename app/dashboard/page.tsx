@@ -170,10 +170,10 @@ export default function Dashboard() {
               <CardTitle className="text-yellow-500">Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Link href="/add-heart">
+              <Link href="https://launch.writeourheart.com">
                 <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">
                   <Plus className="h-4 w-4 mr-2" />
-                  Create New Card
+                  Join Waiting List
                 </Button>
               </Link>
 
@@ -248,7 +248,7 @@ export default function Dashboard() {
           </Card>
         )}
 
-        {/* Pricing Information */}
+        {/* Current Website Pricing */}
         <Card className="bg-gray-900 border-gray-800 mt-8">
           <CardHeader>
             <CardTitle className="text-yellow-500">Current Pricing</CardTitle>
@@ -276,62 +276,6 @@ export default function Dashboard() {
             </div>
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-400">Additional cards: $4.99 each • Cards expire after 2 months</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* FAQ Section */}
-        <Card className="bg-gray-900 border-gray-800 mt-8">
-          <CardHeader>
-            <CardTitle className="text-yellow-500">Frequently Asked Questions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <h4 className="font-semibold text-white mb-2">How do I join the waiting list?</h4>
-              <p className="text-gray-400 text-sm">
-                Click 'Join Waiting List' to be notified when Write Our Heart goes live. You'll be among the first to
-                access our personalized poetry card service.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-2">How long does delivery take?</h4>
-              <p className="text-gray-400 text-sm">
-                Once the cards are printed and mailed within a couple days going through the USPS within 3-5 business
-                days.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-2">Can I edit poetry before sending?</h4>
-              <p className="text-gray-400 text-sm">
-                Currently our team handles poetry creation. Enterprise subscribers will get self-service editing
-                capabilities after launch. Contact support for adjustments.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-2">Do you deliver internationally?</h4>
-              <p className="text-gray-400 text-sm">
-                During the waiting list process no international mail but when we go live you will have that
-                opportunity.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-2">Why do cards expire after 2 months?</h4>
-              <p className="text-gray-400 text-sm">
-                Card expiration prevents hoarding, ensures timely content, and helps us manage printing costs. It
-                encourages regular use rather than accumulating cards for bulk sending.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-white mb-2">What happens to unused cards?</h4>
-              <p className="text-gray-400 text-sm">
-                Unused cards expire after 2 months. This policy ensures fresh content and prevents system abuse while
-                giving you reasonable flexibility for scheduling.
-              </p>
             </div>
           </CardContent>
         </Card>

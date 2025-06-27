@@ -30,7 +30,7 @@ export default function HomePage() {
               <Link href="/samples">
                 <Button
                   variant="outline"
-                  className="border-yellow-500 text-yellow-500 hover:bg-yellow-500/10 px-8 py-6 text-lg"
+                  className="border-yellow-500 text-yellow-500 hover:bg-yellow-500/10 px-8 py-6 text-lg bg-transparent"
                 >
                   See Examples
                 </Button>
@@ -150,49 +150,70 @@ export default function HomePage() {
       <section className="py-20 px-4 bg-gradient-to-br from-gray-900 to-black">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="bg-yellow-500 text-black px-3 py-1 text-sm mb-4">Launch Pricing</Badge>
+            <Badge className="bg-yellow-500 text-black px-3 py-1 text-sm mb-4">Current Pricing</Badge>
             <h2 className="text-3xl md:text-5xl font-bold mb-6">Simple, Transparent Pricing</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">Lock in our special launch rates for 12 months.</p>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">Choose from 3 flexible plans with annual savings.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <PricingCard
-              title="Individual"
-              price="$4.99"
+              title="Whisper Plan"
+              price="$11.99"
               period="month"
               description="Perfect for personal use"
               features={[
-                "4 free cards per month",
+                "2 premium cards per month",
                 "US postage included",
                 "Personalized poetry",
                 "Occasion reminders",
+                "Cards expire after 2 months",
                 "Additional cards: $4.99 each",
               ]}
               buttonText="Join Waiting List"
-              buttonLink="/beta-signup"
+              buttonLink="https://launch.writeourheart.com"
               popular={false}
             />
 
             <PricingCard
-              title="Enterprise"
-              price="$17.99"
+              title="Heartbeat Plan"
+              price="$19.99"
               period="month"
-              description="Ideal for businesses"
+              description="Most popular choice"
               features={[
-                "8-12 free cards per month",
+                "4 premium cards per month",
                 "US postage included",
-                "Logo placement",
-                "Team management",
+                "Personalized poetry",
+                "Occasion reminders",
+                "Cards expire after 2 months",
                 "Additional cards: $4.99 each",
               ]}
               buttonText="Join Waiting List"
-              buttonLink="/beta-signup"
+              buttonLink="https://launch.writeourheart.com"
               popular={true}
+            />
+
+            <PricingCard
+              title="Legacy Plan"
+              price="$34.99"
+              period="month"
+              description="For frequent senders"
+              features={[
+                "7 premium cards per month",
+                "US postage included",
+                "Personalized poetry",
+                "Occasion reminders",
+                "Cards expire after 2 months",
+                "Additional cards: $4.99 each",
+                "Custom logo placement",
+              ]}
+              buttonText="Join Waiting List"
+              buttonLink="https://launch.writeourheart.com"
+              popular={false}
             />
           </div>
 
           <div className="mt-12 text-center">
-            <p className="text-gray-400">All plans include a 14-day free trial. Cancel anytime.</p>
+            <p className="text-gray-400">Annual plans save 2 months + get 2 bonus cards</p>
             <Link href="/pricing" className="text-yellow-500 hover:underline inline-flex items-center mt-2">
               See full pricing details <ArrowRight className="ml-1 h-4 w-4" />
             </Link>

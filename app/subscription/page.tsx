@@ -31,6 +31,8 @@ const SubscriptionPage = () => {
 
   const handlePlanSelect = (planName) => {
     setSelectedPlan(planName)
+    // Redirect to waiting list
+    window.location.href = "https://launch.writeourheart.com"
   }
 
   return (

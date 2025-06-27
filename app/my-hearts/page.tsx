@@ -7,7 +7,7 @@ const MyHeartsPage = () => {
 
       <div className="bg-white shadow rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-2 text-gray-700">Join Our Waiting List</h2>
-        <p className="text-gray-600 mb-4">Be the first to know when Write Our Heart launches with our new pricing!</p>
+        <p className="text-gray-600 mb-4">Be the first to know when Write Our Heart launches!</p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="text-center p-4 bg-gray-100 rounded-lg">
